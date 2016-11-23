@@ -160,7 +160,7 @@ int main(int argc, char *argv[])
 	cfg.id = pj_str("sip:" SIP_USER "@" SIP_DOMAIN);
 	cfg.reg_uri = pj_str("sip:" SIP_DOMAIN);
 	cfg.cred_count = 1;
-	cfg.cred_info[0].realm = pj_str(SIP_DOMAIN);
+	cfg.cred_info[0].realm = pj_str("*");
 	cfg.cred_info[0].scheme = pj_str("digest");
 	cfg.cred_info[0].username = pj_str(SIP_USER);
 	cfg.cred_info[0].data_type = PJSIP_CRED_DATA_PLAIN_PASSWD;
