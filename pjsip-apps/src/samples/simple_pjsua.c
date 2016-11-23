@@ -42,9 +42,9 @@
 
 #define THIS_FILE	"APP"
 
-#define SIP_DOMAIN	"example.com"
-#define SIP_USER	"alice"
-#define SIP_PASSWD	"secret"
+#define SIP_DOMAIN	"117.187.12.237:25060"
+#define SIP_USER	"1010"
+#define SIP_PASSWD	"123456"
 
 
 /* Callback called by the library upon receiving incoming call */
@@ -166,6 +166,9 @@ int main(int argc, char *argv[])
 	cfg.cred_info[0].data_type = PJSIP_CRED_DATA_PLAIN_PASSWD;
 	cfg.cred_info[0].data = pj_str(SIP_PASSWD);
 
+	cfg.vid_in_auto_show = PJ_TRUE;
+	cfg.vid_out_auto_transmit = PJ_TRUE;
+
 	status = pjsua_acc_add(&cfg, PJ_TRUE, &acc_id);
 	if (status != PJ_SUCCESS) error_exit("Error adding account", status);
     }
@@ -173,7 +176,12 @@ int main(int argc, char *argv[])
     /* If URL is specified, make call to the URL. */
     if (argc > 1) {
 	pj_str_t uri = pj_str(argv[1]);
-	status = pjsua_call_make_call(acc_id, &uri, 0, NULL, NULL, NULL);
+
+	pjsua_call_setting call_setting;
+	pjsua_call_setting_default(&call_setting);
+	call_setting.vid_cnt = 1;
+
+	status = pjsua_call_make_call(acc_id, &uri, &call_setting, NULL, NULL, NULL);
 	if (status != PJ_SUCCESS) error_exit("Error making call", status);
     }
 
